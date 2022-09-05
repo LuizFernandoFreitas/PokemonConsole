@@ -33,6 +33,8 @@ for (int i = 0; listaIdsPokemons.Count > i; i++)
         var habilidade = dadosPokemonsResponse.Habilidades[j];
 
         Console.WriteLine($"Habilidade {j + 1}: {habilidade.HabilidadePokemon.Nome}");
+        Console.WriteLine($"Altura: {dadosPokemonsResponse.Altura}");
+        Console.WriteLine($"Peso: {dadosPokemonsResponse.Peso}");
     }
 
     Console.WriteLine("");

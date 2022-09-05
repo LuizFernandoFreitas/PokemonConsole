@@ -6,6 +6,12 @@ namespace ConsolePokemon.Data.Response
     {
         [JsonProperty(PropertyName = "abilities")]
         public List<Habilidade> Habilidades { get; set; }
+
+        [JsonProperty(PropertyName = "height")]
+        public int Altura { get; set; }
+
+        [JsonProperty(PropertyName = "weight")]
+        public int Peso { get; set; }
     }
 
     public class Habilidade
