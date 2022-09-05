@@ -1,41 +1,51 @@
-﻿using ConsolePokemon.Data.Response;
-using ConsolePokemon.Helpers;
-using Newtonsoft.Json;
-using RestSharp;
+﻿using ConsolePokemon;
+using ConsolePokemon.Data;
 
-string urlPokemon = "https://pokeapi.co/api/v2/pokemon/";
-var client = new RestClient();
+Apresentacao apresentacao = new();
+BuscaPokemonsService buscaPokemons = new();
+List<PokemonDTO> listaPokemons = new();
 
-var listaIdsPokemons = new List<EnumPokemons>()
+apresentacao.ColetarDadosUsuario();
+
+short opcaoSelecionada;
+
+do
 {
-    EnumPokemons.Bulbasaur,
-    EnumPokemons.Charmander,
-    EnumPokemons.Squirtle
-};
+    opcaoSelecionada = Apresentacao.OpcoesDeJogo();
 
-Console.WriteLine("Escolha seu parceiro pokemon:");
-Console.WriteLine("");
-
-for (int i = 0; listaIdsPokemons.Count > i; i++)
-{
-    var pokemon = listaIdsPokemons[i];
-
-    var request = new RestRequest($"{urlPokemon}{pokemon.GetHashCode()}", Method.Get);
-
-    var response = await client.GetAsync(request);
-
-    var dadosPokemonsResponse = JsonConvert.DeserializeObject<HabilidadePokemonResponse>(response.Content);
-
-    Console.WriteLine($"{i + 1} - {pokemon}");
-
-    for (int j = 0; dadosPokemonsResponse.Habilidades.Count > j; j++)
+    switch (opcaoSelecionada)
     {
-        var habilidade = dadosPokemonsResponse.Habilidades[j];
+        case 1:
+            var pokemon = await buscaPokemons.BuscarPokemons();
+            listaPokemons.Add(pokemon);
+            break;
+        case 2:
 
-        Console.WriteLine($"Habilidade {j + 1}: {habilidade.HabilidadePokemon.Nome}");
-        Console.WriteLine($"Altura: {dadosPokemonsResponse.Altura}");
-        Console.WriteLine($"Peso: {dadosPokemonsResponse.Peso}");
+            if (listaPokemons?.Count == 0)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("Você não possuí ainda pokemons na sua lista");
+                Console.WriteLine("");
+
+                break;
+            }
+
+            Console.WriteLine("Sua lista contêm os seguintes pokemons...");
+
+            foreach (var pokemonList in listaPokemons)
+            {
+                Console.WriteLine(pokemonList.NomePokemon);
+            }
+
+            break;
+        case 3:
+            Apresentacao.MensagemDeDespedida();
+            break;
+        default:
+            Apresentacao.OpcaoInvalida();
+            break;
     }
 
     Console.WriteLine("");
-}
+
+} while (opcaoSelecionada != 3);
