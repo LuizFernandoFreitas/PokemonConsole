@@ -3,7 +3,7 @@ using ConsolePokemon.Helpers;
 
 namespace ConsolePokemon.Data
 {
-    public class PokemonDTO
+    public class Pokemon
     {
         public string NomePokemon { get; set; }
         public List<Habilidade> Habilidades { get; set; }

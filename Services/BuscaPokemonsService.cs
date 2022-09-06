@@ -4,7 +4,7 @@ using ConsolePokemon.Helpers;
 using Newtonsoft.Json;
 using RestSharp;
 
-namespace ConsolePokemon
+namespace ConsolePokemon.Services
 {
     public class BuscaPokemonsService
     {
@@ -18,12 +18,12 @@ namespace ConsolePokemon
             EnumPokemons.Squirtle
         };
 
-        public async Task<PokemonDTO> BuscarPokemons()
+        public async Task<Pokemon> BuscarPokemons()
         {
-            List<PokemonDTO> pokemonDTOs = new();
+            List<Pokemon> pokemonDTOs = new();
 
             Console.WriteLine("---------------------------ESCOLHA SEU POKEMON---------------------------");
-                
+
             for (int i = 0; listaIdsPokemons.Count > i; i++)
             {
                 var pokemon = listaIdsPokemons[i];
@@ -51,7 +51,7 @@ namespace ConsolePokemon
                     habilidades.Add(habilidade);
                 }
 
-                pokemonDTOs.Add(new PokemonDTO
+                pokemonDTOs.Add(new Pokemon
                 {
                     Habilidades = habilidades,
                     NomePokemon = pokemon.ToString(),

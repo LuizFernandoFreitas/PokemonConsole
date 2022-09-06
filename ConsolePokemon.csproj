@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Request\" />
+    <Folder Include="Model\Request\" />
   </ItemGroup>
 
   <ItemGroup>

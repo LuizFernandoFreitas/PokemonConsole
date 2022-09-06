@@ -1,6 +1,6 @@
-﻿namespace ConsolePokemon
+﻿namespace ConsolePokemon.View
 {
-    public class Apresentacao
+    public class PokemonView
     {
         public string NomeTreinadorPokemon { get; set; }
 
@@ -13,11 +13,11 @@
 
             Console.WriteLine("Aqui você pode encontrar pokemons incríveis para sua jornada...");
             Console.WriteLine("");
-            
+
             Console.WriteLine("Como você se chama?");
             NomeTreinadorPokemon = Console.ReadLine();
             Console.WriteLine("");
-            
+
             Console.WriteLine($"Olá {NomeTreinadorPokemon}, venha até a nossa sala para te mostrar os pokemons disponíveis....");
             Console.WriteLine("");
         }
@@ -32,7 +32,7 @@
 
             var opcao = Console.ReadLine();
 
-            short.TryParse(opcao, out short opcaoSelecionadaShort);
+            _ = short.TryParse(opcao, out short opcaoSelecionadaShort);
 
             return opcaoSelecionadaShort;
         }
