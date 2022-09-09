@@ -1,5 +1,12 @@
 ﻿using ConsolePokemon.Controller;
 
-ControleDeJogoController controleJogo = new();
+try
+{
+    ControleDeJogoController controleJogo = new();
 
-controleJogo.IniciarJornadaPokemon();
+    await controleJogo.IniciarJornadaPokemon();
+}
+catch (Exception erro)
+{
+    throw;
+}

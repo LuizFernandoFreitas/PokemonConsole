@@ -1,11 +1,6 @@
-﻿using ConsolePokemon.Data;
+﻿using ConsolePokemon.Model;
 using ConsolePokemon.Services;
 using ConsolePokemon.View;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ConsolePokemon.Controller
 {
@@ -35,19 +30,16 @@ namespace ConsolePokemon.Controller
 
                         if (listaPokemons?.Count == 0)
                         {
-                            Console.WriteLine("");
-                            Console.WriteLine("Você não possuí ainda pokemons na sua lista");
-                            Console.WriteLine("");
+                            PokemonView.ListaDePokemonsVazia();
 
                             break;
                         }
 
-                        Console.WriteLine("Sua lista contêm os seguintes pokemons...");
+                        PokemonView.ListarPokemons(listaPokemons);
 
-                        foreach (var pokemonList in listaPokemons)
-                        {
-                            Console.WriteLine(pokemonList.NomePokemon);
-                        }
+                        var pokemonInteracao = PokemonView.ExibirPokemonsParaInteracao(listaPokemons);
+
+                        PokemonView.InteracaoComoPokemon(pokemonInteracao);
 
                         break;
                     case 3:
