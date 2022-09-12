@@ -16,43 +16,50 @@ namespace ConsolePokemon.Controller
 
             short opcaoSelecionada;
 
-            do
+            try
             {
-                opcaoSelecionada = PokemonView.OpcoesDeJogo();
-
-                switch (opcaoSelecionada)
+                do
                 {
-                    case 1:
-                        var pokemon = await buscaPokemons.BuscarPokemons();
-                        listaPokemons.Add(pokemon);
-                        break;
-                    case 2:
+                    opcaoSelecionada = PokemonView.OpcoesDeJogo();
 
-                        if (listaPokemons?.Count == 0)
-                        {
-                            PokemonView.ListaDePokemonsVazia();
+                    switch (opcaoSelecionada)
+                    {
+                        case 1:
+                            var pokemon = await buscaPokemons.BuscarPokemons();
+                            listaPokemons.Add(pokemon);
+                            break;
+                        case 2:
+
+                            if (listaPokemons?.Count == 0)
+                            {
+                                PokemonView.ListaDePokemonsVazia();
+
+                                break;
+                            }
+
+                            PokemonView.ListarPokemons(listaPokemons);
+
+                            var pokemonInteracao = PokemonView.ExibirPokemonsParaInteracao(listaPokemons);
+
+                            PokemonView.InteracaoComoPokemon(pokemonInteracao);
 
                             break;
-                        }
+                        case 3:
+                            PokemonView.MensagemDeDespedida();
+                            break;
+                        default:
+                            PokemonView.OpcaoInvalida();
+                            break;
+                    }
 
-                        PokemonView.ListarPokemons(listaPokemons);
+                    Console.WriteLine("");
 
-                        var pokemonInteracao = PokemonView.ExibirPokemonsParaInteracao(listaPokemons);
-
-                        PokemonView.InteracaoComoPokemon(pokemonInteracao);
-
-                        break;
-                    case 3:
-                        PokemonView.MensagemDeDespedida();
-                        break;
-                    default:
-                        PokemonView.OpcaoInvalida();
-                        break;
-                }
-
-                Console.WriteLine("");
-
-            } while (opcaoSelecionada != 3);
+                } while (opcaoSelecionada != 3);
+            }
+            catch (Exception erro)
+            {
+                Console.WriteLine(erro.ToString());
+            }
         }
     }
 }

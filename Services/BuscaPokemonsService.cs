@@ -21,43 +21,60 @@ namespace ConsolePokemon.Services
 
         public async Task<Pokemon> BuscarPokemons()
         {
-            List<Pokemon> pokemons = new();
-
-            PokemonView.InicioMenuEscolhaPokemon();
-
-            for (int i = 0; listaIdsPokemons.Count > i; i++)
+            try
             {
-                var pokemon = listaIdsPokemons[i];
+                List<Pokemon> pokemons = new();
 
-                var indiceReal = i + 1;
+                PokemonView.InicioMenuEscolhaPokemon();
 
-                var request = new RestRequest($"{urlPokemon}{pokemon.GetHashCode()}", Method.Get);
-
-                var response = await client.GetAsync(request);
-                var dadosPokemonsResponse = JsonConvert.DeserializeObject<HabilidadePokemonResponse>(response.Content);
-
-                PokemonView.ExibePokemonsEncontrados(
-                    indiceReal,
-                    pokemon);
-
-                PokemonView.ExibirListaHabilidadeECaracteristicas(
-                    dadosPokemonsResponse.Habilidades,
-                    dadosPokemonsResponse.Altura,
-                    dadosPokemonsResponse.Peso);
-
-                pokemons.Add(new Pokemon
+                for (int i = 0; listaIdsPokemons.Count > i; i++)
                 {
-                    Habilidades = dadosPokemonsResponse.Habilidades,
-                    NomePokemon = pokemon.ToString(),
-                    PokemonCode = indiceReal,
-                    Altura = dadosPokemonsResponse.Altura,
-                    Peso = dadosPokemonsResponse.Peso
-                });
+                    var pokemon = listaIdsPokemons[i];
 
-                Console.WriteLine("");
+                    var indiceReal = i + 1;
+
+                    var request = new RestRequest($"{urlPokemon}{pokemon.GetHashCode()}", Method.Get);
+
+                    var response = await client.GetAsync(request);
+
+                    if (response.IsSuccessful)
+                    {
+                        var dadosPokemonsResponse = JsonConvert.DeserializeObject<HabilidadePokemonResponse>(response.Content);
+
+                        PokemonView.ExibePokemonsEncontrados(
+                            indiceReal,
+                            pokemon);
+
+                        PokemonView.ExibirListaHabilidadeECaracteristicas(
+                            dadosPokemonsResponse.Habilidades,
+                            dadosPokemonsResponse.Altura,
+                            dadosPokemonsResponse.Peso);
+
+                        pokemons.Add(new Pokemon
+                        {
+                            Habilidades = dadosPokemonsResponse.Habilidades,
+                            NomePokemon = pokemon.ToString(),
+                            PokemonCode = indiceReal,
+                            Altura = dadosPokemonsResponse.Altura,
+                            Peso = dadosPokemonsResponse.Peso
+                        });
+
+                        Console.WriteLine("");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Ocorreu um erro ao tentar selecionar seu pokemon. Erro {response.Content}");
+                    }
+                }
+
+                return PokemonView.EscolhaDoPokemon(pokemons);
             }
+            catch (Exception erro)
+            {
+                var mesnagemErro = $"Ocorreu um erro inesperado ao buscar o pokemon. Erro: {erro}";
 
-            return PokemonView.EscolhaDoPokemon(pokemons);
+                throw new Exception(mesnagemErro);
+            }
         }
     }
 }
